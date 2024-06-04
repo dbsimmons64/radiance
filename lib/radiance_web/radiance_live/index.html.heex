@@ -1,0 +1,83 @@
+<div 
+  :if={@live_action in [:index]}
+>
+
+<div class="m-8">
+  <div class="text-sm breadcrumbs">
+    <ul>
+        <li><a>To Be</a></li>
+        <li><a>Completed</a></li>
+    </ul>
+  </div>
+
+  <div class="flex justify-between">
+    <div class="text-3xl font-bold">
+      <%= @page_title %>
+    </div>
+    <div>
+      <.link patch={"#{@url_prefix}/#{@resource.plural}/new"}>
+        <button class="btn bg-orange-500 hover:bg-orange-400 text-white ">New <%= @resource.name %></button>  
+      </.link>
+    </div>
+  </div>  
+</div>
+
+
+<.table
+  id={@resource.plural}
+  rows={@streams.records}
+  
+>
+  <:col :let={{_id, record}} :for={column <- @columns} :if={show_field(column[:hide], assigns) == true} label={set_label(column)}>
+    <.fibril_column 
+      column={column} 
+      record={record} 
+    />
+  </:col>
+  
+  <:action :let={{id, record}}>
+    <.link patch={~p"/admin/#{@resource.plural}/#{record.id}/edit"} class="m-2">
+     <.icon name="hero-pencil-square" class="h-4 w-4 " />
+      Edit
+    </.link>
+
+    <.link
+      phx-click={JS.push("delete", value: %{id: record.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+      class="m-2 text-red-500"
+    >
+      <.icon name="hero-trash" class="h-4 w-4" />
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<div class="m-8">
+  <Flop.Phoenix.pagination
+    meta={@meta}
+    path={"#{@url_prefix}/#{@resource.plural}"}    
+    opts={[
+      wrapper_attrs: [class: "flex justify-between"],
+      pagination_list_attrs: [class: ["flex gap-4 order-2"]],
+      previous_link_attrs: [class: "order-1 btn btn-outline"],
+      next_link_attrs: [class: "order-3 btn btn-outline"],
+      page_links: {:ellipsis, 3}
+    ]}
+  />
+  </div>
+</div>
+
+
+  <.live_component
+  :if={@live_action in [:new, :edit, :new_belongs_to] }
+    module={FibrilWeb.FibrilLive.FormComponent}
+    configuration={@configuration}
+    id={@record.id || :new}
+    title={@page_title}
+    page_title={@page_title}
+    action={@live_action}
+    record={@record}
+    patch={"#{@url_prefix}/#{@resource.plural}"}
+  />
+
+
