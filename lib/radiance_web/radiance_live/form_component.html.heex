@@ -1,0 +1,64 @@
+
+    <div>
+    <div class="m-8">
+            <div class="text-sm breadcrumbs">
+                <ul>
+                    <li><a>Patients</a></li>
+                    <li><a>Create</a></li>
+                </ul>
+            </div>
+            <div class="text-3xl font-bold">
+                <%= Atom.to_string(@action) |> String.capitalize() %> <%= String.capitalize(@configuration.resource.name) %>
+            </div>
+        </div>
+
+      <.simple_form
+        for={@form}
+        id="fibril-form"
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+        class="form"
+      >
+      <div class="grid grid-cols-2 gap-6 m-8">
+
+        <%= for field <- @fields do %>
+          <.fibril_input
+            name={@form[field.name]}
+            type={field.html_type}
+            field={field}
+            myself={@myself}
+            label={set_label(field)}
+          />
+
+      
+          
+        <% end %>
+        </div>
+        <:actions>
+        <button class="btn bg-orange-500 hover:bg-orange-400 text-white m-8">Create</button>
+          <.link patch={"#{@url_prefix}/#{@resource.plural}/new"}>
+
+    </.link>
+        </:actions>
+      </.simple_form>
+
+
+<div>Action: <%= @action %></div>
+
+<.modal :if={@action == :new_belongs_to } id="pet-modal" show on_cancel={JS.push("close-belongs-to", target: @myself)}>
+
+  <.live_component
+    module={FibrilLive.BTFormComponent}
+    id={:new}
+    title={@page_title}
+    field={@field}
+    record={@record}
+    parent_form={@myself}
+  />
+</.modal>
+</div>
+
+
+
+    

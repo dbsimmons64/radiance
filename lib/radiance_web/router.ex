@@ -10,7 +10,7 @@ defmodule RadianceWeb.Router do
     plug(:put_secure_browser_headers)
   end
 
-  defmacro fibril_admin(pipe) do
+  defmacro radiance_admin(pipe) do
     import Phoenix.LiveView.Router, only: [live: 4]
 
     url_prefix = Application.get_env(:radiance, :url_prefix, "/admin")

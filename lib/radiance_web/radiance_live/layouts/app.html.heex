@@ -1,0 +1,8 @@
+<div class="fb-content gap-1">
+  <.fb_header />
+  <.fb_sidebar name={@resource.plural}/>
+  <main class=" fb-main bg-gray-50">
+    <.flash_group flash={@flash} />
+    <%= @inner_content %>
+  </main>
+</div>

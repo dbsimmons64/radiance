@@ -157,7 +157,7 @@ iconColour: %{
 }
 ```
 
-The key will be taken from the value of the column.
+The value of the column will be used as the key when displaying the column.
 
 * A function, see the section on functions below.
 
@@ -165,7 +165,7 @@ The key will be taken from the value of the column.
 Radiance provide the capability to set a value based on the result of running a function. For example assuming we want to display a different colour text depending upon the value of the column. 
 
 ```elixir
-textColour: [&calculate_colour/2, [:record]]
+textColour: [&calculate_colour/2, :record]
 
 def calculate_colour(record) do
     if record.score > 50 do
@@ -176,7 +176,7 @@ def calculate_colour(record) do
 end
 ```
 
-The second argument in the list is itself a list of values to be passed to the function. All argument  values are taken from `assigns`. There are a few special arguments
+The second argument in the list is a set of values to be passed to the function. All argument  values are taken from `assigns`. There are a few special arguments
 * :record - this is the current record being displayed in the row (or form)
 * :form - the current values in the form, useful for cross field validation.
 * :value - the value of the column
@@ -192,7 +192,7 @@ Radiance is able to display columns from related tables. For example in the `pet
 ```elixir
 
 %{
-  fields: [
+  columns: [
     [:owner, :name]
   ]
 }

@@ -84,24 +84,24 @@ defmodule RadianceWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
-      # import Radiance.CoreComponents
+      import Radiance.CoreComponents
       # import Radiance.RadianceComponents
-      import Radiance.TableComponents
-      import Radiance.Table
+      import RadianceWeb.TableComponents
+      import RadianceWeb.Table
       import Radiance.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 
       # Routes generation with the ~p sigil
-      unquote(verified_routes())
+      # unquote(verified_routes())
     end
   end
 
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: Application.compile_env(:Radiance, :endpoint, Radiance.Endpoint),
+        endpoint: Application.compile_env(:radiance, :endpoint),
         router: RadianceWeb.Router,
         statics: RadianceWeb.static_paths()
     end

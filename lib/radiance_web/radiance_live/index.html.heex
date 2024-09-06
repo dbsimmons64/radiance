@@ -28,15 +28,16 @@
   rows={@streams.records}
   
 >
-  <:col :let={{_id, record}} :for={column <- @columns} :if={show_field(column[:hide], assigns) == true} label={set_label(column)}>
-    <.fibril_column 
+  <:col :let={{_id, record}} :for={column <- @columns} label={column.label}>
+
+    <TableComponents.column 
       column={column} 
       record={record} 
     />
   </:col>
   
   <:action :let={{id, record}}>
-    <.link patch={~p"/admin/#{@resource.plural}/#{record.id}/edit"} class="m-2">
+    <.link patch={"/admin/#{@resource.plural}/#{record.id}/edit"} class="m-2">
      <.icon name="hero-pencil-square" class="h-4 w-4 " />
       Edit
     </.link>
@@ -70,7 +71,7 @@
 
   <.live_component
   :if={@live_action in [:new, :edit, :new_belongs_to] }
-    module={FibrilWeb.FibrilLive.FormComponent}
+    module={RadianceWeb.RadianceLive.FormComponent}
     configuration={@configuration}
     id={@record.id || :new}
     title={@page_title}

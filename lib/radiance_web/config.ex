@@ -6,11 +6,11 @@ defmodule Radiance.Config do
   end
 
   defmacro __before_compile__(_env) do
-    application_name = Application.get_env(:Radiance, :application_name)
-    repo = Application.get_env(:Radiance, :repo, Radiance.Repo)
-    auth = Application.get_env(:Radiance, :auth, RadianceWeb.UserAuth)
-    module_prefix = Application.get_env(:Radiance, :module_prefix, "Radiance.Resource")
-    url_prefix = Application.get_env(:Radiance, :url_prefix, "/admin")
+    application_name = Application.get_env(:radiance, :application_name)
+    repo = Application.get_env(:radiance, :repo, Radiance.Repo)
+    auth = Application.get_env(:radiance, :auth, RadianceWeb.UserAuth)
+    module_prefix = Application.get_env(:radiance, :module_prefix, "Radiance.Resource")
+    url_prefix = Application.get_env(:radiance, :url_prefix, "/admin")
 
     quote do
       def repo() do
